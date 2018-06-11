@@ -266,8 +266,9 @@ func (l *Log) send(n int, level Level, msg string, e *Entry) (err error) {
 	if l.out != nil {
 		if e != nil && e.fields != nil {
 			data, jErr := json.Marshal(e.fields)
-			if jErr != nil {
+			if jErr == nil {
 				msg = msg + "  " + string(data)
+			} else {
 				err = jErr
 			}
 		}
@@ -281,8 +282,9 @@ func (l *Log) send(n int, level Level, msg string, e *Entry) (err error) {
 	if l.std != nil {
 		if e != nil && e.fields != nil {
 			data, jErr := json.Marshal(e.fields)
-			if jErr != nil {
+			if jErr == nil {
 				msg = msg + "  " + string(data)
+			} else {
 				err = jErr
 			}
 		}
