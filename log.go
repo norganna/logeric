@@ -16,6 +16,8 @@ type Log struct {
 	std   StdLogger
 	out   OutputLogger
 	field logrus.FieldLogger
+
+	ordered bool
 }
 
 var _ FieldLogger = (*Log)(nil)
@@ -38,6 +40,11 @@ func New(logger interface{}) (*Log, error) {
 	}
 
 	return l, nil
+}
+
+// Ordered if set sets a _order field in the output fields which can be used by log formatters to insert-order fields.
+func (l *Log) Ordered(set bool) {
+	l.ordered = set
 }
 
 // WithField is a stub for entry.WithField.
@@ -232,6 +239,9 @@ func (l *Log) send(n int, level Level, msg string, e *Entry) (err error) {
 						f.Add("source", fmt.Sprintf("%s:%d", file, line), nil)
 					}
 				}
+			}
+			if l.ordered {
+				fields["_order"] = e.order
 			}
 
 			logger = logger.WithFields(logrus.Fields(fields))
