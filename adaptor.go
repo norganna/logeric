@@ -2,14 +2,15 @@ package logeric
 
 import (
 	"bytes"
-	"strings"
 	"io"
+	"strings"
 )
 
 // Adaptor is a standard logger io.Writer adaptor, which takes the std log and parses it into a logeric instance.
 type Adaptor struct {
 	logger FieldLogger
 }
+
 var _ io.Writer = (*Adaptor)(nil)
 
 // Write is an implementation of io.Writer.
