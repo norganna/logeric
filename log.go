@@ -1,8 +1,7 @@
 package logeric
 
 import (
-	"encoding/json"
-	"errors"
+		"errors"
 	"fmt"
 	"log"
 	"os"
@@ -265,11 +264,11 @@ func (l *Log) send(n int, level Level, msg string, e *Entry) (err error) {
 
 	if l.out != nil {
 		if e != nil && e.fields != nil {
-			data, jErr := json.Marshal(e.fields)
-			if jErr == nil {
+			data, dErr := e.fields.Dump()
+			if dErr == nil {
 				msg = msg + "  " + string(data)
 			} else {
-				err = jErr
+				msg = msg + " <<" + dErr.Error() + ">>"
 			}
 		}
 
@@ -281,11 +280,11 @@ func (l *Log) send(n int, level Level, msg string, e *Entry) (err error) {
 
 	if l.std != nil {
 		if e != nil && e.fields != nil {
-			data, jErr := json.Marshal(e.fields)
-			if jErr == nil {
+			data, dErr := e.fields.Dump()
+			if dErr == nil {
 				msg = msg + "  " + string(data)
 			} else {
-				err = jErr
+				msg = msg + " <<" + dErr.Error() + ">>"
 			}
 		}
 

@@ -1,5 +1,10 @@
 package logeric
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // Fields is an string map.
 type Fields map[string]interface{}
 
@@ -13,6 +18,27 @@ func (f Fields) Add(key string, value interface{}, order *[]string) bool {
 	}
 
 	return ok
+}
+
+// Dump takes the fields and renders them.
+func (f Fields) Dump() ([]byte, error) {
+	out := map[string]json.RawMessage{}
+
+	for k, v := range f {
+		var d []byte
+		if s, ok := v.(fmt.Stringer); ok {
+			d = []byte(s.String())
+		} else if e, ok := v.(error); ok {
+			d = []byte(e.Error())
+		} else if j, err := json.Marshal(v); err == nil && len(j) > 0 {
+			d = j
+		} else {
+			d = []byte(fmt.Sprintf("%#v", v))
+		}
+		out[k] = d
+	}
+
+	return json.Marshal(out)
 }
 
 func combineFields(a, b Fields, order []string) (Fields, []string) {
