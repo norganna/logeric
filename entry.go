@@ -40,6 +40,17 @@ func (e *Entry) WithFields(fields Fields) *Entry {
 	}
 }
 
+// WithFieldList adds a bunch of fields to the entry in specified order.
+func (e *Entry) WithFieldList(fields FieldList) *Entry {
+	f, o := combineFieldList(e.fields, fields, e.order)
+
+	return &Entry{
+		log:    e.log,
+		fields: f,
+		order:  o,
+	}
+}
+
 // Debugf is an implementation of FieldLogger.
 func (e *Entry) Debugf(format string, args ...interface{}) {
 	e.log.send(2+e.stack, Debug, fmt.Sprintf(format, args...), e)

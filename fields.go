@@ -5,6 +5,13 @@ import (
 	"fmt"
 )
 
+type Field struct {
+	K string
+	V interface{}
+}
+
+type FieldList []Field
+
 // Fields is an string map.
 type Fields map[string]interface{}
 
@@ -54,6 +61,22 @@ func combineFields(a, b Fields, order []string) (Fields, []string) {
 
 	for k, v := range b {
 		f.Add(k, v, &o)
+	}
+
+	return f, o
+}
+
+func combineFieldList(a Fields, b FieldList, order []string) (Fields, []string) {
+	o := make([]string, len(order))
+	copy(o, order)
+
+	f := make(Fields, len(a))
+	for k, v := range a {
+		f.Add(k, v, nil)
+	}
+
+	for _, x := range b {
+		f.Add(x.K, x.V, &o)
 	}
 
 	return f, o

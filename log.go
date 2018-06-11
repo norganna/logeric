@@ -60,6 +60,12 @@ func (l *Log) WithFields(fields Fields) *Entry {
 	return e.WithFields(fields)
 }
 
+// WithFieldList is a stub for entry.WithFieldList.
+func (l *Log) WithFieldList(fields FieldList) *Entry {
+	e := &Entry{log: l, stack: 1}
+	return e.WithFieldList(fields)
+}
+
 // WithError is a stub for entry.WithError.
 func (l *Log) WithError(err error) *Entry {
 	e := &Entry{log: l, stack: 1}
