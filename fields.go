@@ -27,13 +27,15 @@ func (f Fields) Dump() ([]byte, error) {
 	for k, v := range f {
 		var d []byte
 		if s, ok := v.(fmt.Stringer); ok {
-			d = []byte(s.String())
+			v = s.String()
 		} else if e, ok := v.(error); ok {
-			d = []byte(e.Error())
-		} else if j, err := json.Marshal(v); err == nil && len(j) > 0 {
+			v = e.Error()
+		}
+
+		if j, jErr := json.Marshal(v); jErr == nil && len(j) > 0 {
 			d = j
 		} else {
-			d = []byte(fmt.Sprintf("%#v", v))
+			d, _ = json.Marshal(fmt.Sprintf("%#v", v))
 		}
 		out[k] = d
 	}
