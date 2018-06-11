@@ -5,11 +5,13 @@ import (
 	"fmt"
 )
 
+// Field represents a single Key/Value pair for use in WithFieldList().
 type Field struct {
 	K string
 	V interface{}
 }
 
+// FieldList is a slice of Fields used in WithFieldList().
 type FieldList []Field
 
 // Fields is an string map.

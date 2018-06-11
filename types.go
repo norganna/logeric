@@ -22,6 +22,11 @@ type StdLogger interface {
 
 // FieldLogger values will implement the standard Logrus interface methods.
 type FieldLogger interface {
+	WriterAdaptor() *Adaptor
+
+	Err(args ...interface{}) error
+	Errf(format string, args ...interface{}) error
+
 	WithField(key string, value interface{}) *Entry
 	WithFields(fields Fields) *Entry
 	WithError(err error) *Entry

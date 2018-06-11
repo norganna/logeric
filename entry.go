@@ -16,6 +16,14 @@ type Entry struct {
 
 var _ FieldLogger = (*Entry)(nil)
 
+// WriterAdaptor returns an io.Writer that can be supplied to a system logger for processing log messages into the
+// logeric instance.
+func (e *Entry) WriterAdaptor() *Adaptor {
+	return &Adaptor{
+		logger: e,
+	}
+}
+
 // WithError adds an error to the entry.
 func (e *Entry) WithError(err error) *Entry {
 	if err == nil {
