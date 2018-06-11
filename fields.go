@@ -17,12 +17,12 @@ type Fields map[string]interface{}
 
 // Add will add a key to a Fields map and keep track of key order.
 func (f Fields) Add(key string, value interface{}, order *[]string) bool {
-	_, ok := f[key]
-	f[key] = value
-
 	if key == "error" && value == nil {
 		return false
 	}
+
+	_, ok := f[key]
+	f[key] = value
 
 	if !ok && order != nil {
 		*order = append(*order, key)
