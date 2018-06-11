@@ -20,6 +20,10 @@ func (f Fields) Add(key string, value interface{}, order *[]string) bool {
 	_, ok := f[key]
 	f[key] = value
 
+	if key == "error" && value == nil {
+		return false
+	}
+
 	if !ok && order != nil {
 		*order = append(*order, key)
 	}
