@@ -18,6 +18,9 @@ var _ FieldLogger = (*Entry)(nil)
 
 // WithError adds an error to the entry.
 func (e *Entry) WithError(err error) *Entry {
+	if err == nil {
+		return e
+	}
 	return e.WithFields(Fields{"error": err})
 }
 
