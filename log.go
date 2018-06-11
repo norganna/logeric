@@ -28,12 +28,14 @@ func New(logger interface{}) (*Log, error) {
 	l := &Log{}
 	if logger == nil {
 		l.out = log.New(os.Stderr, "", log.LstdFlags)
-	} else if logger, ok := logger.(logrus.FieldLogger); ok {
-		l.field = logger
-	} else if logger, ok := logger.(OutputLogger); ok {
-		l.out = logger
-	} else if logger, ok := logger.(StdLogger); ok {
-		l.std = logger
+	} else if g, ok := logger.(*Log); ok {
+		l = g
+	} else if g, ok := logger.(logrus.FieldLogger); ok {
+		l.field = g
+	} else if g, ok := logger.(OutputLogger); ok {
+		l.out = g
+	} else if g, ok := logger.(StdLogger); ok {
+		l.std = g
 	} else {
 		return nil, errors.New("unknown logging engine")
 	}
