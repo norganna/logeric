@@ -1,7 +1,7 @@
 package logeric
 
 import (
-		"errors"
+	"errors"
 	"fmt"
 	"log"
 	"os"
