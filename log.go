@@ -48,6 +48,14 @@ func (l *Log) Ordered(set bool) {
 	l.ordered = set
 }
 
+// WriterAdaptor returns an io.Writer that can be supplied to a system logger for processing log messages into the
+// logeric instance.
+func (l *Log) WriterAdaptor() *Adaptor {
+	return &Adaptor{
+		logger: l,
+	}
+}
+
 // WithField is a stub for entry.WithField.
 func (l *Log) WithField(key string, value interface{}) *Entry {
 	e := &Entry{log: l, stack: 1}
