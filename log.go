@@ -27,9 +27,7 @@ func New(logger interface{}) (*Log, error) {
 	l := &Log{}
 	if logger == nil {
 		l.out = log.New(os.Stderr, "", log.LstdFlags)
-	}
-
-	if logger, ok := logger.(logrus.FieldLogger); ok {
+	} else if logger, ok := logger.(logrus.FieldLogger); ok {
 		l.field = logger
 	} else if logger, ok := logger.(OutputLogger); ok {
 		l.out = logger
