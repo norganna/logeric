@@ -227,9 +227,9 @@ func (l *Log) send(n int, level Level, msg string, e *Entry) (err error) {
 			if v, ok := fields["error"]; ok {
 				if err, ok := v.(*erroneous.Erroneous); ok {
 					f, o := combineFields(e.fields, Fields(err.Fields()), e.order)
-					f.Add("error", err.Message(), o)
+					f.Add("error", err.Message(), &o)
 					if file, line := err.Source(); file != "" {
-						f.Add("source", fmt.Sprintf("%s:%d", file, line))
+						f.Add("source", fmt.Sprintf("%s:%d", file, line), nil)
 					}
 				}
 			}

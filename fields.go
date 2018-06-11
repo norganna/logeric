@@ -4,12 +4,12 @@ package logeric
 type Fields map[string]interface{}
 
 // Add will add a key to a Fields map and keep track of key order.
-func (f Fields) Add(key string, value interface{}, order ...[]string) bool {
+func (f Fields) Add(key string, value interface{}, order *[]string) bool {
 	_, ok := f[key]
 	f[key] = value
 
-	if !ok && len(order) > 0 {
-		order[0] = append(order[0], key)
+	if !ok && order != nil {
+		*order = append(*order, key)
 	}
 
 	return ok
@@ -21,11 +21,11 @@ func combineFields(a, b Fields, order []string) (Fields, []string) {
 
 	f := make(Fields, len(a))
 	for k, v := range a {
-		f.Add(k, v)
+		f.Add(k, v, nil)
 	}
 
 	for k, v := range b {
-		f.Add(k, v, o)
+		f.Add(k, v, &o)
 	}
 
 	return f, o
